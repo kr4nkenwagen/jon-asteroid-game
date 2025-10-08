@@ -1,0 +1,63 @@
+import pygame
+
+class entity_manager:
+    first_entity = None
+    id_count = 0
+    def __init__(self, game):
+        self.game = game
+        pass
+
+    def update(self):
+        curr_ent = self.first_entity
+        while curr_ent != None:
+            curr_ent.update()
+            curr_ent = curr_ent.next
+    
+    def draw(self):
+        self.game.screen.fill("black")
+        curr_ent = self.first_entity
+        while curr_ent != None:
+            if curr_ent.polygon != None:
+                curr_ent.polygon.calc(curr_ent.position, curr_ent.rotation, curr_ent.radius)
+                pygame.draw.polygon(self.game.screen, curr_ent.polygon.color, curr_ent.polygon.points, curr_ent.polygon.thickness)
+            curr_ent.draw()
+            curr_ent = curr_ent.next
+        pygame.display.flip()
+
+    def add_entity(self, entity):
+        entity.game = self.game
+        entity.id = self.id_count
+        self.id_count += 1
+        print("adding ent: " + type(entity).__name__ + "[" + str(entity.id) + "]")
+        if self.first_entity == None:
+            self.first_entity = entity
+            return entity
+        curr_ent = self.first_entity
+        while curr_ent.next != None:
+            curr_ent = curr_ent.next
+        curr_ent.next = entity
+        return entity
+
+    def remove_entity(self, entity):
+        if entity == None:
+            return
+        if self.first_entity.id == entity.id:
+            entity.next = self.first_entity.next
+            self.first_entity = entity
+            print("removed ent: " + type(entity).__name__ + "[" + str(entity.id) + "]")
+            return
+        curr_ent = self.first_entity
+        while curr_ent != None:
+            if curr_ent.next.id == entity.id:
+                entity.next = curr_ent.next.next
+                curr_ent.next = entity
+                print("removed ent: " + type(entity).__name__ + "[" + str(entity.id) + "]")
+
+                return
+            curr_ent = curr_ent.next
+
+    def get_entity(self, name):
+        curr_ent = self.first_entity
+        while type(curr_ent).__name__ != name:
+            curr_ent = curr_ent.next
+        return curr_ent
