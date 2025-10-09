@@ -14,15 +14,13 @@ class entity_manager:
             curr_ent = curr_ent.next
     
     def draw(self):
-        self.game.screen.fill("black")
         curr_ent = self.first_entity
         while curr_ent != None:
             if curr_ent.polygon != None:
                 curr_ent.polygon.calc(curr_ent.position, curr_ent.rotation, curr_ent.radius)
-                pygame.draw.polygon(self.game.screen, curr_ent.polygon.color, curr_ent.polygon.points, curr_ent.polygon.thickness)
+                self.game.rendr_manager.add_queue(curr_ent.polygon)
             curr_ent.draw()
             curr_ent = curr_ent.next
-        pygame.display.flip()
 
     def add_entity(self, entity):
         entity.game = self.game

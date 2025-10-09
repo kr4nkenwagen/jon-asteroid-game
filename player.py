@@ -1,6 +1,7 @@
 from constants import PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED
 from entity import entity
 from player_polygon import player_polygon
+from player_thrust_polygon import player_thrust_polygon
 import pygame
 
 class player(entity):
