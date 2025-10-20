@@ -3,6 +3,9 @@ import pygame
 class entity(pygame.sprite.Sprite):
     next = None
     game = None
+    parent = None
+    collideable = False
+    has_collided_with = []
     id = 0
     rotation = 0
     position = pygame.Vector2(0, 0)
@@ -25,3 +28,5 @@ class entity(pygame.sprite.Sprite):
         pass
 
 
+    def on_collision(self, entity):
+        pass

@@ -15,5 +15,4 @@ class render_manager():
         for pol in self.render_queue:
             pygame.draw.polygon(self.game.screen, pol.color, pol.points, pol.thickness)
         pygame.display.flip()
-
-
+        self.render_queue.clear()

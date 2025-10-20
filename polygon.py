@@ -4,6 +4,7 @@ class polygon:
     points = []
     color = "white"
     thickness = 2
+    enabled = True
     def __init__(self):
         pass
 
