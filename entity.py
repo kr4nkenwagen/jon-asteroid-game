@@ -1,24 +1,20 @@
 import pygame
 
 class entity(pygame.sprite.Sprite):
-    next = None
-    game = None
-    parent = None
-    collideable = False
-    has_collided_with = []
-    id = 0
-    rotation = 0
-    position = pygame.Vector2(0, 0)
-    velocity = pygame.Vector2(0, 0)
-    radius = 0
-    polygon = None
     def __init__(self, x, y, radius):
-        if hasattr(self, "containers"):
-            super().__init__(self.containers)
-        else:
-            super().__init__()
         self.position = pygame.Vector2(x, y)
+        self.next = None
+        self.game = None
+        self.parent = None
+        self.collideable = False
+        self.has_collided_with = set()
+        self.id = 0
+        self.rotation = 0
+        self.position = pygame.Vector2(x, y)
+        self.velocity = pygame.Vector2(0, 0)
+        self.radius = 0
         self.radius = radius
+        self.polygon = None
     
     def update(self):
 

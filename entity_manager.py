@@ -30,7 +30,6 @@ class entity_manager:
         entity.game = self.game
         entity.id = self.id_count
         self.id_count += 1
-        print("adding ent: " + type(entity).__name__ + "[" + str(entity.id) + "]")
         if self.first_entity == None:
             self.first_entity = entity
             return entity
@@ -46,13 +45,11 @@ class entity_manager:
         if self.first_entity.id == entity.id:
             entity.next = self.first_entity.next
             self.first_entity = entity
-            print("removed ent: " + type(entity).__name__ + "[" + str(entity.id) + "]")
             return
         curr_ent = self.first_entity
         while curr_ent != None:
             if curr_ent.next.id == entity.id:
                 curr_ent.next = curr_ent.next.next
-                print("removed ent: " + type(entity).__name__ + "[" + str(entity.id) + "]")
 
                 return
             curr_ent = curr_ent.next

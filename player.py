@@ -10,9 +10,9 @@ class player(entity):
     camera_offset = pygame.Vector2(0, 0)
 
     def __init__(self, x, y):
+        super().__init__(x, y, PLAYER_RADIUS)
         self.polygon = player_polygon()
         self.collideable = True
-        super().__init__(x, y, PLAYER_RADIUS)
 
     def forward(self):
         return pygame.Vector2(0, 1).rotate(self.rotation)
@@ -42,7 +42,6 @@ class player(entity):
             self.accelerate(dt)
         else:
             self.deaccelerate(dt)
-        #self.position += self.velocity * dt
         self.position = self.camera_offset + pygame.Vector2(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
     def update(self):
@@ -55,4 +54,4 @@ class player(entity):
 
     def on_collision(self, entity):
         print("Player collided with " + str(entity.id))
-        self.velocity += entity.velocity / 100
+        self.velocity += entity.velocity

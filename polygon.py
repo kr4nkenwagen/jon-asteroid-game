@@ -1,12 +1,12 @@
 import pygame
 
 class polygon:
-    points = []
-    color = "white"
-    thickness = 2
-    enabled = True
+
     def __init__(self):
-        pass
+        self.points = []
+        self.color = "white"
+        self.thickness = 2
+        self.enabled = True
 
     def calc(self, position, rotation, radius):
        pass 

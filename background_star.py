@@ -7,11 +7,11 @@ class background_star(entity):
     player = None
     layer = 1
     def __init__(self, layer):
+        super().__init__(0, 0, 1)
         self.layer = layer
         self.polygon = background_star_polygon()
         self.position.x = randint(0, SCREEN_WIDTH)
         self.position.y = randint(0, SCREEN_HEIGHT)
-        super().__init__(self.position.x, self.position.y, 1)
 
 
     def update(self):
