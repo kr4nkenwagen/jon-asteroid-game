@@ -37,7 +37,7 @@ class player(entity):
             self.accelerate(dt)
         else:
             self.deaccelerate(dt)
-        self.position += self.velocity * dt
+        #self.position += self.velocity * dt
 
     def update(self):
         if self.thrust_representation == None:
