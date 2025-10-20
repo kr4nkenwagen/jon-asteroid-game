@@ -17,7 +17,7 @@ class background_star(entity):
     def update(self):
         if self.player == None:
             self.player = self.game.ent_manager.get_entity("player")
-        self.velocity = self.player.velocity * -1 * (self.layer * BACKGROUND_SPEED_MULTIPLIER)
+        self.velocity = (self.player.velocity - self.player.camera_offset) * -1 * (self.layer * BACKGROUND_SPEED_MULTIPLIER)
         self.position += self.velocity * self.game.dt
         if self.position.x < 0:
             self.position.x = SCREEN_WIDTH

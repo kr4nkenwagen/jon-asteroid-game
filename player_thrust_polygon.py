@@ -6,7 +6,7 @@ import random
 class player_thrust_polygon:
     def calc(self, position, rotation, radius):
         self.color = "yellow"
-        self.thickness = 1
+        self.thickness = 2
         offset = pygame.Vector2(PLAYER_RADIUS // 3, PLAYER_RADIUS + 10)
         a = (pygame.Vector2(random.randint(-2, 2), 10) - offset).rotate(rotation) + position
         b = (pygame.Vector2(PLAYER_RADIUS + random.randint(-2, 2), 10) - offset).rotate(rotation) + position

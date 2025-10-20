@@ -15,6 +15,5 @@ class background_creator(entity):
             while amount > 0:
                 self.game.ent_manager.add_entity(background_star(layer))
                 amount -= 1
-            print("dddddwdwdwad")
             layer -= 1
         self.game.ent_manager.remove_entity(self)

@@ -1,4 +1,4 @@
-from constants import PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED
+from constants import PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED, SCREEN_ACCELERATION, SCREEN_DEACCELERATION, SCREEN_HEIGHT, SCREEN_OFFSET_LIMIT, SCREEN_WIDTH
 from entity import entity
 from player_polygon import player_polygon
 from player_thrust_polygon import player_thrust_polygon
@@ -7,6 +7,7 @@ import pygame
 
 class player(entity):
     thrust_representation = None
+    camera_offset = pygame.Vector2(0, 0)
 
     def __init__(self, x, y):
         self.polygon = player_polygon()
@@ -27,10 +28,14 @@ class player(entity):
     def accelerate(self, dt):
         self.thrust_representation.show = True
         self.velocity = self.velocity.lerp(self.forward() * PLAYER_MAX_SPEED, PLAYER_ACCELERATION / PLAYER_MAX_SPEED * dt)
+        if self.camera_offset.length() < SCREEN_OFFSET_LIMIT:
+            self.camera_offset = self.camera_offset.lerp(self.forward() * SCREEN_OFFSET_LIMIT,  (SCREEN_ACCELERATION * dt) / SCREEN_OFFSET_LIMIT)
 
     def deaccelerate(self, dt):
         self.thrust_representation.show = False
         self.velocity = self.velocity.lerp(pygame.Vector2(0, 0), PLAYER_DEACCELERATION / PLAYER_MAX_SPEED * dt)
+        if self.camera_offset.length() != 0:
+            self.camera_offset = self.camera_offset.lerp(pygame.Vector2(0, 0), min((SCREEN_DEACCELERATION * dt) / self.camera_offset.length(), 1))
 
     def move(self, dt, keys):
         if keys[pygame.K_w]:
@@ -38,6 +43,7 @@ class player(entity):
         else:
             self.deaccelerate(dt)
         #self.position += self.velocity * dt
+        self.position = self.camera_offset + pygame.Vector2(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
     def update(self):
         if self.thrust_representation == None:
