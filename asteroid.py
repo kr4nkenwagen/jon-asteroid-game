@@ -26,5 +26,5 @@ class asteroid(entity):
             print("asteroid exceeded its lifetime")
             self.game.ent_manager.remove_entity(self)
 
-    def on_collision(self, entity):
+    def on_collision_enter(self, entity, collision_point):
         self.velocity = (self.position + self.velocity).reflect(entity.position).normalize() * self.velocity.length() 

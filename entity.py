@@ -24,5 +24,11 @@ class entity(pygame.sprite.Sprite):
         pass
 
 
+    def on_collision_enter(self, entity, collision_point):
+        pass
+
     def on_collision(self, entity):
+        pass
+
+    def on_collision_exit(self, entity):
         pass

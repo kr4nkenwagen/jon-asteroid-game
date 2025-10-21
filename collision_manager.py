@@ -18,6 +18,10 @@ class collision_manager():
                         if dist < radius:
                             if self.polygons_collide(cur_ent.polygon.points, sec_ent.polygon.points):
                                 if sec_ent.id not in cur_ent.has_collided_with:
+                                    collision_point = self.get_collision_point(cur_ent.polygon.points, sec_ent.polygon.points)
+                                    cur_ent.on_collision_enter(sec_ent, collision_point)
+                                    sec_ent.on_collision_enter(cur_ent, collision_point)
+                                else:
                                     cur_ent.on_collision(sec_ent)
                                     sec_ent.on_collision(cur_ent)
                                 cur_ent.has_collided_with.add(sec_ent.id)
@@ -25,8 +29,10 @@ class collision_manager():
                             else:
                                 if sec_ent.id in cur_ent.has_collided_with:
                                     cur_ent.has_collided_with.discard(sec_ent.id)
+                                    cur_ent.on_collision_exit(sec_ent)
                                 if cur_ent.id in sec_ent.has_collided_with:
                                     sec_ent.has_collided_with.discard(cur_ent.id)
+                                    sec_ent.on_collision_exit(cur_ent)
                     sec_ent = sec_ent.next
             cur_ent = cur_ent.next
 
@@ -48,3 +54,13 @@ class collision_manager():
         dots = [point.dot(axis) for point in pol]
         return min(dots), max(dots)
 
+    def get_collision_point(self, pol1, pol2):
+        min_dist = float('inf')
+        for p1 in pol1:
+            for p2 in pol2:
+                dist = p1.distance_to(p2)
+                if dist < min_dist:
+                    min_dist = dist
+                    return pygame.Vector2(p1.x / p2.x, p1.y / p2.y)
+        return pygame.Vector2(0, 0) 
+    

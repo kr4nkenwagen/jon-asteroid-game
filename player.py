@@ -52,6 +52,12 @@ class player(entity):
         self.rotate(self.game.dt, keys)
         self.move(self.game.dt, keys)
 
-    def on_collision(self, entity):
+    def on_collision_enter(self, entity, collision_point):
         print("Player collided with " + str(entity.id))
-        self.velocity += entity.velocity
+        self.velocity = entity.velocity * -1 * 10
+
+    def on_collision(self, entity):
+        pass
+
+    def on_collision_exit(self, entity):
+        print("Player collision with " + str(entity.id) + " ended")
