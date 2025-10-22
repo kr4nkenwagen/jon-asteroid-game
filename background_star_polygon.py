@@ -8,7 +8,7 @@ class background_star_polygon(polygon):
         self.layer = layer
         self.velocity = pygame.Vector2(0, 0)
 
-    def calc(self, position, rotation, radius):
+    def calc(self, position, rotation, radius, dt):
         self.thickness = 1
         self.color = BACKGROUND_STAR_COLOR
         length = 0

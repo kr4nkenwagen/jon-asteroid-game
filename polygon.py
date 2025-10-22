@@ -9,5 +9,5 @@ class polygon:
         self.enabled = True
         self.show = True
 
-    def calc(self, position, rotation, radius):
+    def calc(self, position, rotation, radius, dt):
        pass 

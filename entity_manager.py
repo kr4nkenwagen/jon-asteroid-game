@@ -21,7 +21,7 @@ class entity_manager:
         curr_ent = self.first_entity
         while curr_ent != None:
             if curr_ent.polygon != None and curr_ent.polygon.enabled:
-                curr_ent.polygon.calc(curr_ent.position, curr_ent.rotation, curr_ent.radius)
+                curr_ent.polygon.calc(curr_ent.position, curr_ent.rotation, curr_ent.radius, self.game.dt)
                 self.game.rendr_manager.add_queue(curr_ent.polygon)
             curr_ent.draw()
             curr_ent = curr_ent.next

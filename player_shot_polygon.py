@@ -7,7 +7,7 @@ class player_shot_polygon(polygon):
         super().__init__()
         self.length = 0
 
-    def calc(self, position, rotation, radius):
+    def calc(self, position, rotation, radius, dt):
         half_length = self.length / 2
         self.points = [
             pygame.Vector2(0, -half_length),

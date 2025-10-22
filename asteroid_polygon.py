@@ -71,7 +71,7 @@ class asteroid_polygon(polygon):
         super().__init__()
         self.shape_index = randint(0, len(self.asteroid_shapes) -1)
 
-    def calc(self, position, rotation, radius):
+    def calc(self, position, rotation, radius, dt):
         shape = self.asteroid_shapes[self.shape_index]
         self.points = [ (point.rotate(rotation) * radius + position) for point in shape ]
         self.color = ASTEROID_COLOR
