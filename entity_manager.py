@@ -26,6 +26,17 @@ class entity_manager:
             curr_ent.draw()
             curr_ent = curr_ent.next
 
+    def update_physics(self):
+        curr_ent = self.first_entity
+        while curr_ent != None:
+            if curr_ent.use_physics:
+                op = self.game.coll_manager.check_velocity_position(curr_ent)
+                if op == None:
+                    curr_ent.position += curr_ent.velocity * self.game.dt
+                else:
+                    self.physics_bounce(curr_ent, op)
+            curr_ent = curr_ent.next
+
     def add_entity(self, entity):
         entity.game = self.game
         entity.id = self.id_count
@@ -50,7 +61,6 @@ class entity_manager:
         while curr_ent != None:
             if curr_ent.next.id == entity.id:
                 curr_ent.next = curr_ent.next.next
-
                 return
             curr_ent = curr_ent.next
 
@@ -59,3 +69,13 @@ class entity_manager:
         while type(curr_ent).__name__ != name:
             curr_ent = curr_ent.next
         return curr_ent
+
+    def physics_bounce(self, e1, e2):
+        rel_vel = e1.velocity - e2.velocity
+        normal = (e1.position - e2.position).normalize()
+        vel_along = rel_vel.dot(normal)
+        if vel_along > 0:
+            return
+        impulse = ((2 * vel_along) / (e1.radius + e2.radius)) * normal
+        e1.velocity -= impulse * e2.radius
+        e2.velocity += impulse * e1.radius

@@ -64,3 +64,19 @@ class collision_manager():
                     return pygame.Vector2(p1.x / p2.x, p1.y / p2.y)
         return pygame.Vector2(0, 0) 
     
+    def shift_points(self, points, shift):
+        return [p + shift for p in points]
+
+    def check_velocity_position(self, entity):
+        if len(entity.polygon.points) == 0:
+            return None 
+        cur_ent = entity.next
+        while cur_ent != None:
+            if cur_ent != entity and cur_ent.use_physics and len(cur_ent.polygon.points) > 0:
+                dist = (cur_ent.position + cur_ent.velocity).distance_to(entity.position + entity.velocity)
+                radius = cur_ent.radius + entity.radius
+                if dist < radius:
+                    if self.polygons_collide(self.shift_points(cur_ent.polygon.points, cur_ent.velocity), self.shift_points(entity.polygon.points, entity.velocity)):
+                        return cur_ent
+            cur_ent = cur_ent.next
+        return None 

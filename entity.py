@@ -15,6 +15,7 @@ class entity(pygame.sprite.Sprite):
         self.radius = 0
         self.radius = radius
         self.polygon = None
+        self.use_physics = False
     
     def update(self):
 

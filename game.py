@@ -34,6 +34,7 @@ class game():
      
     def update(self):
         self.ent_manager.update()
+        self.ent_manager.update_physics()
         self.coll_manager.update()
         self.dt = self.clock.tick() / 1000
     
