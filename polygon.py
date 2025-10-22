@@ -7,6 +7,7 @@ class polygon:
         self.color = "white"
         self.thickness = 2
         self.enabled = True
+        self.show = True
 
     def calc(self, position, rotation, radius):
        pass 

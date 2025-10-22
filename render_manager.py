@@ -13,6 +13,7 @@ class render_manager():
         self.game.screen.fill("black")
         self.game.ent_manager.draw()
         for pol in self.render_queue:
-            pygame.draw.polygon(self.game.screen, pol.color, pol.points, pol.thickness)
+            if pol.show:
+                pygame.draw.polygon(self.game.screen, pol.color, pol.points, pol.thickness)
         pygame.display.flip()
         self.render_queue.clear()

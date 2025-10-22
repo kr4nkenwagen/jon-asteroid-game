@@ -53,6 +53,9 @@ class player(entity):
         self.move(self.game.dt, keys)
 
     def on_collision_enter(self, entity, collision_point):
+        if entity.__class__.__name__ == "background_star":
+            print("ud")
+            return
         print("Player collided with " + str(entity.id))
         self.velocity = entity.velocity * -1 * 10
 

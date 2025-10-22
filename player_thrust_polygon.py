@@ -2,8 +2,9 @@ from constants import PLAYER_RADIUS
 import polygon
 import pygame
 import random
+from polygon import polygon
 
-class player_thrust_polygon:
+class player_thrust_polygon(polygon):
     def calc(self, position, rotation, radius):
         self.color = "yellow"
         self.thickness = 2

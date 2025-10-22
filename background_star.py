@@ -12,6 +12,7 @@ class background_star(entity):
         self.polygon = background_star_polygon()
         self.position.x = randint(0, SCREEN_WIDTH)
         self.position.y = randint(0, SCREEN_HEIGHT)
+        self.collideable = False
 
 
     def update(self):
@@ -27,3 +28,5 @@ class background_star(entity):
             self.position.y = SCREEN_HEIGHT
         elif self.position.y > SCREEN_HEIGHT:
             self.position.y = 0
+        self.velocity = self.player.velocity
+        self.rotation = self.player.rotation
