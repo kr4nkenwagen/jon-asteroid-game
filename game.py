@@ -5,16 +5,15 @@ from constants import *
 from entity_manager import entity_manager
 from player import player
 import pygame
-import pygame
 from render_manager import render_manager
 
 class game():
     screen = None
     clock = None
     dt = 0
-    ent_manager = None
-    rendr_manager = None
-    coll_manager = None
+    ent_manager : entity_manager
+    rendr_manager : render_manager
+    coll_manager : collision_manager
     game_running = False
     def init(self):
         print("Starting Asteroids!")

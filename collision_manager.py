@@ -14,7 +14,7 @@ class collision_manager():
                 while sec_ent != None:
                     if sec_ent.collideable and len(sec_ent.polygon.points) > 0:
                         dist = cur_ent.position.distance_to(sec_ent.position)
-                        radius = cur_ent.radius + sec_ent.radius
+                        radius = (cur_ent.radius + sec_ent.radius) / 2
                         if dist < radius:
                             if self.polygons_collide(cur_ent.polygon.points, sec_ent.polygon.points):
                                 if sec_ent.id not in cur_ent.has_collided_with:
@@ -76,7 +76,34 @@ class collision_manager():
                 dist = (cur_ent.position + cur_ent.velocity).distance_to(entity.position + entity.velocity)
                 radius = cur_ent.radius + entity.radius
                 if dist < radius:
-                    if self.polygons_collide(self.shift_points(cur_ent.polygon.points, cur_ent.velocity), self.shift_points(entity.polygon.points, entity.velocity)):
+                    if self.polygons_collide(self.shift_points(cur_ent.polygon.points, cur_ent.velocity * self.game.dt), self.shift_points(entity.polygon.points, entity.velocity * self.game.dt)):
                         return cur_ent
             cur_ent = cur_ent.next
         return None 
+
+    def polygon_line(self, position, rotation, length, thickness):
+        half_length = length / 2 
+        half_thickness = thickness / 2
+        points = [
+           pygame.Vector2(-half_length, -half_thickness),
+           pygame.Vector2(half_length, -half_thickness),
+           pygame.Vector2(half_length, half_thickness),
+           pygame.Vector2(-half_length, half_thickness)
+        ]
+        points = [position + p.rotate(rotation) for p in points]
+        pygame.draw.polygon(self.game.screen, "red", points, 20)
+        return points
+
+    def polygon_raycast(self, origin, direction, max_distance, step, width):
+        distance = 0
+        while distance < max_distance:
+            ray_center = origin + (pygame.Vector2(0, 1).rotate(direction) * distance)
+            ray = self.polygon_line(ray_center, direction, step, width)
+            cur_ent = self.game.ent_manager.first_entity
+            while cur_ent != None:
+                if cur_ent.collideable and len(cur_ent.polygon.points) > 0:
+                    if self.polygons_collide(ray, cur_ent.polygon.points):
+                        return cur_ent, distance
+                cur_ent = cur_ent.next
+            distance += step
+        return None, distance

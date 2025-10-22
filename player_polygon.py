@@ -1,4 +1,4 @@
-from constants import PLAYER_RADIUS
+from constants import PLAYER_COLOR, PLAYER_RADIUS, PLAYER_THICKNESS
 import pygame
 from polygon import polygon
 
@@ -10,4 +10,6 @@ class player_polygon(polygon):
         b = position - forward * PLAYER_RADIUS - right
         c = position - forward * PLAYER_RADIUS + right
         self.points = [a, b, c]
+        self.color = PLAYER_COLOR
+        self.thickness = PLAYER_THICKNESS
 

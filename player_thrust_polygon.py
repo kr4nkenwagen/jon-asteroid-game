@@ -1,4 +1,4 @@
-from constants import PLAYER_RADIUS
+from constants import PLAYER_RADIUS, PLAYER_REAR_THRUST_COLOR, PLAYER_REAR_THRUST_THICKNESS
 import polygon
 import pygame
 import random
@@ -6,8 +6,8 @@ from polygon import polygon
 
 class player_thrust_polygon(polygon):
     def calc(self, position, rotation, radius):
-        self.color = "yellow"
-        self.thickness = 2
+        self.color = PLAYER_REAR_THRUST_COLOR
+        self.thickness = PLAYER_REAR_THRUST_THICKNESS
         offset = pygame.Vector2(PLAYER_RADIUS // 3, PLAYER_RADIUS + 10)
         a = (pygame.Vector2(random.randint(-2, 2), 10) - offset).rotate(rotation) + position
         b = (pygame.Vector2(PLAYER_RADIUS + random.randint(-2, 2), 10) - offset).rotate(rotation) + position

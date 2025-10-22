@@ -1,6 +1,7 @@
-from constants import PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED, SCREEN_ACCELERATION, SCREEN_DEACCELERATION, SCREEN_HEIGHT, SCREEN_OFFSET_LIMIT, SCREEN_WIDTH
+from constants import PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_FIRE_RATE, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED, SCREEN_ACCELERATION, SCREEN_DEACCELERATION, SCREEN_HEIGHT, SCREEN_OFFSET_LIMIT, SCREEN_WIDTH
 from entity import entity
 from player_polygon import player_polygon
+from player_shot import player_shot
 from player_thrust_polygon import player_thrust_polygon
 from player_thurst_representation import player_thrust_representation
 import pygame
@@ -8,6 +9,7 @@ import pygame
 class player(entity):
     thrust_representation = None
     camera_offset = pygame.Vector2(0, 0)
+    player_fire_rate_counter = 0
 
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
@@ -51,6 +53,23 @@ class player(entity):
         keys = pygame.key.get_pressed()
         self.rotate(self.game.dt, keys)
         self.move(self.game.dt, keys)
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+        self.reload()
+
+    def shoot(self):
+        if self.player_fire_rate_counter > 0:
+            return
+        origin = self.position + self.forward() * (self.radius + 5)
+        self.game.ent_manager.add_entity(player_shot(origin.x, origin.y, self.rotation))
+        self.player_fire_rate_counter += self.game.dt
+
+    def reload(self):
+        if self.player_fire_rate_counter > 0:
+            self.player_fire_rate_counter += self.game.dt
+            if self.player_fire_rate_counter > PLAYER_FIRE_RATE:
+                self.player_fire_rate_counter = 0
+
 
     def on_collision_enter(self, entity, collision_point):
         print("Player collided with " + str(entity.id))

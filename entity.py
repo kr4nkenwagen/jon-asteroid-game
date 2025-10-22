@@ -1,10 +1,11 @@
+import game
 import pygame
 
 class entity(pygame.sprite.Sprite):
     def __init__(self, x, y, radius):
         self.position = pygame.Vector2(x, y)
         self.next = None
-        self.game = None
+        self.game : game = None
         self.parent = None
         self.collideable = False
         self.has_collided_with = set()

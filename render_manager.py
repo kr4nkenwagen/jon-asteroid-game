@@ -1,3 +1,4 @@
+from constants import BACKGROUND_COLOR
 import pygame
 
 class render_manager():
@@ -10,7 +11,7 @@ class render_manager():
         self.render_queue.append(polygon)
 
     def draw(self):
-        self.game.screen.fill("black")
+        self.game.screen.fill(BACKGROUND_COLOR)
         self.game.ent_manager.draw()
         for pol in self.render_queue:
             if pol.show:
