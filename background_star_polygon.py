@@ -9,11 +9,11 @@ class background_star_polygon(polygon):
         self.velocity = pygame.Vector2(0, 0)
 
     def calc(self, position, rotation, radius):
+        self.thickness = 1
+        self.color = "white"
         length = 0
-        rotation = self.velocity.as_polar()[1] - 90
+        rotation = self.velocity.as_polar()[1] + 90
         if self.velocity.length() >= BACKGROUND_STAR_DISTORTION_LIMIT:
             length = (self.velocity.length() - BACKGROUND_STAR_DISTORTION_LIMIT) * (self.layer * BACKGROUND_SPEED_MULTIPLIER) * BACKGROUND_STAR_DISTORTION_MAX_LENGTH
         self.points = [ pygame.Vector2(0, 0), pygame.Vector2(1, 0), pygame.Vector2(1, 1 + length), pygame.Vector2(0, 1 + length) ]
         self.points  = [position + p.rotate(rotation) for p in self.points]
-        self.color = "white"
-        self.thickness = 2
