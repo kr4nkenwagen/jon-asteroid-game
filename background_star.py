@@ -9,7 +9,7 @@ class background_star(entity):
     def __init__(self, layer):
         super().__init__(0, 0, 1)
         self.layer = layer
-        self.polygon = background_star_polygon()
+        self.polygon = background_star_polygon(self.layer)
         self.position.x = randint(0, SCREEN_WIDTH)
         self.position.y = randint(0, SCREEN_HEIGHT)
         self.collideable = False
@@ -30,3 +30,4 @@ class background_star(entity):
             self.position.y = 0
         self.velocity = self.player.velocity
         self.rotation = self.player.rotation
+        self.polygon.velocity = self.velocity
