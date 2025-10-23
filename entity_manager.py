@@ -33,6 +33,7 @@ class entity_manager:
                 op = self.game.coll_manager.check_velocity_position(curr_ent)
                 if op == None:
                     curr_ent.position += curr_ent.velocity * self.game.dt
+                    curr_ent.rotation += curr_ent.angular_velocity * self.game.dt
                 else:
                     self.physics_bounce(curr_ent, op)
             curr_ent = curr_ent.next
@@ -79,3 +80,6 @@ class entity_manager:
         impulse = ((2 * vel_along) / (e1.radius + e2.radius)) * normal
         e1.velocity -= impulse * e2.radius
         e2.velocity += impulse * e1.radius
+        friction = 0.5
+        e1.angular_velocity -= (impulse.length() * e2.radius) / e1.radius * friction
+        e2.angular_velocity -= (impulse.length() * e1.radius) / e2.radius * friction

@@ -12,13 +12,12 @@ class asteroid(entity):
         super().__init__(x, y, radius)
         self.collideable = True
         self.polygon = asteroid_polygon()
-        self.rotation_speed = randint(-ASTEROID_MAX_ROTATION_SPEED, ASTEROID_MAX_ROTATION_SPEED)
+        self.angular_velocity = randint(-ASTEROID_MAX_ROTATION_SPEED, ASTEROID_MAX_ROTATION_SPEED)
         self.use_physics = True
 
     def update(self):
         if self.player == None:
             self.player = self.game.ent_manager.get_entity("player")
-        self.rotation += self.rotation_speed * self.game.dt
         if self.player:
             self.position += self.player.velocity * self.game.dt * -1
         self.life_timer += self.game.dt
