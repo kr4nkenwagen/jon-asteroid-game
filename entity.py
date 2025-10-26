@@ -18,6 +18,7 @@ class entity(pygame.sprite.Sprite):
         self.polygon = None
         self.angular_velocity = 0
         self.use_physics = False
+        self.destroyed = False
     
     def update(self):
 
@@ -34,4 +35,7 @@ class entity(pygame.sprite.Sprite):
         pass
 
     def on_collision_exit(self, entity):
+        pass
+
+    def on_destroy(self):
         pass

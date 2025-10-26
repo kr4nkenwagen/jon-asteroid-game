@@ -50,6 +50,24 @@ class entity_manager:
             curr_ent = curr_ent.next
         curr_ent.next = entity
         return entity
+    
+    def add_entities(self, entities):
+        first_ent = entities[0]
+        for i in range(len(entities)):
+            entities[i].game = self.game
+            entities[i].id = self.id_count
+            self.id_count += 1
+            if i > 0:
+                entities[i - 1].next = entities[i]
+        if self.first_entity == None:
+            self.first_entity = first_ent
+            return first_ent 
+        curr_ent = self.first_entity
+        while curr_ent.next != None:
+            curr_ent = curr_ent.next
+        curr_ent.next = first_ent 
+        return first_ent
+
 
     def remove_entity(self, entity):
         if entity == None:
@@ -57,11 +75,15 @@ class entity_manager:
         if self.first_entity.id == entity.id:
             entity.next = self.first_entity.next
             self.first_entity = entity
+            entity.destroyed = True
+            entity.on_destroy()
             return
         curr_ent = self.first_entity
         while curr_ent != None:
             if curr_ent.next.id == entity.id:
                 curr_ent.next = curr_ent.next.next
+                entity.destroyed = True
+                entity.on_destroy()
                 return
             curr_ent = curr_ent.next
 
