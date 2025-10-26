@@ -15,6 +15,7 @@ class player(entity):
         super().__init__(x, y, PLAYER_RADIUS)
         self.polygon = player_polygon()
         self.collideable = True
+        self.rotation = 180
 
     def forward(self):
         return pygame.Vector2(0, 1).rotate(self.rotation)
@@ -60,7 +61,7 @@ class player(entity):
     def shoot(self):
         if self.player_fire_rate_counter > 0:
             return
-        origin = self.position + self.forward() * (self.radius + 5)
+        origin = self.position + self.forward() * (self.radius + 10)
         self.game.ent_manager.add_entity(player_shot(origin.x, origin.y, self.rotation))
         self.player_fire_rate_counter += self.game.dt
 

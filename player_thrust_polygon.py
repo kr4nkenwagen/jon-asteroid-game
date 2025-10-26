@@ -17,7 +17,7 @@ class player_thrust_polygon(polygon):
        if self.timer > PLAYER_REAR_THRUST_FLAME_UPDATE_RATE:
            self.randomize_flame()
            self.timer = 0
-       flame_offset = pygame.Vector2(0, -PLAYER_RADIUS )
+       flame_offset = pygame.Vector2(0, -PLAYER_RADIUS  + 1)
        self.points = []
        self.points = [position + (flame_offset + p).rotate(rotation) for p in self.flame]
 
