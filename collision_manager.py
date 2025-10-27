@@ -43,7 +43,9 @@ class collision_manager():
                 p1 = polygon[i1]
                 p2 = polygon[i2]
                 edge = p2 - p1
-                axis = pygame.Vector2(-edge.y, edge.x).normalize()
+                axis = pygame.Vector2(0, 0)
+                if edge.y != 0 and edge.x != 0:
+                    axis = pygame.Vector2(-edge.y, edge.x).normalize()
                 min_a, max_a = self.polygon_projection(pol1, axis)
                 min_b, max_b = self.polygon_projection(pol2, axis)
                 if max_a < min_b or max_b < min_a:

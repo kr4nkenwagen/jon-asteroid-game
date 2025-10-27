@@ -1,4 +1,4 @@
-from constants import LASER_LIFETIME, LASTER_MAX_LENGTH
+from constants import LASER_LIFETIME, LASER_WIDTH, LASER_MAX_LENGTH
 from entity import entity
 from player_shot_polygon import player_shot_polygon
 import pygame
@@ -13,8 +13,8 @@ class player_shot(entity):
 
     def update(self):
         if self.first_frame:
-            distance = LASTER_MAX_LENGTH
-            target, distance = self.game.coll_manager.polygon_raycast(self.position, self.rotation, distance, 5, 1)
+            distance = LASER_MAX_LENGTH
+            target, distance = self.game.coll_manager.polygon_raycast(self.position, self.rotation, distance, 5, LASER_WIDTH)
             self.position = self.position + (pygame.Vector2(0,1).rotate(self.rotation) * distance / 2)
             self.polygon.length = distance
             if target != None:
