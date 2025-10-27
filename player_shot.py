@@ -18,7 +18,8 @@ class player_shot(entity):
             self.position = self.position + (pygame.Vector2(0,1).rotate(self.rotation) * distance / 2)
             self.polygon.length = distance
             if target != None:
-                self.game.ent_manager.remove_entity(target)
+                if target.__class__.__name__ == "asteroid":
+                    target.hit()
             self.first_frame = False
         self.lifetime += self.game.dt
         if self.lifetime > LASER_LIFETIME:

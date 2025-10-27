@@ -22,7 +22,7 @@ class asteroid_spawner(entity):
 
     def spawn_asteroid(self):
         position = self.create_asteroid_position()
-        asteroid_ent = self.game.ent_manager.add_entity(asteroid(position.x, position.y, 30))
+        asteroid_ent = self.game.ent_manager.add_entity(asteroid(position.x, position.y, self.create_asteroid_radius()))
         asteroid_ent.velocity = self.create_asteroid_velocity(position)
         asteroid_ent.radius = self.create_asteroid_radius()
 
