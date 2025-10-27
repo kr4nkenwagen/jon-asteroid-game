@@ -6,6 +6,7 @@ from entity_manager import entity_manager
 from player import player
 import pygame
 from render_manager import render_manager
+from ui import ui
 
 class game():
     screen = None
@@ -27,6 +28,7 @@ class game():
         self.clock = pygame.time.Clock()
         self.dt = 0
         self.ent_manager.add_entity(player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        self.ent_manager.add_entity(ui())
         self.ent_manager.add_entity(background_creator())
         self.ent_manager.add_entity(asteroid_spawner())
         self.game_running = True

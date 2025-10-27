@@ -1,4 +1,4 @@
-from constants import PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_FIRE_RATE, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED, SCREEN_ACCELERATION, SCREEN_DEACCELERATION, SCREEN_HEIGHT, SCREEN_OFFSET_LIMIT, SCREEN_WIDTH
+from constants import LEVEL_LIMIT, PLAYER_ACCELERATION, PLAYER_DEACCELERATION, PLAYER_FIRE_RATE, PLAYER_MAX_SPEED, PLAYER_RADIUS,PLAYER_TURN_SPEED, SCREEN_ACCELERATION, SCREEN_DEACCELERATION, SCREEN_HEIGHT, SCREEN_OFFSET_LIMIT, SCREEN_WIDTH
 from entity import entity
 from player_polygon import player_polygon
 from player_shot import player_shot
@@ -16,6 +16,8 @@ class player(entity):
         self.polygon = player_polygon()
         self.collideable = True
         self.rotation = 180
+        self.score = 0
+        self.level = 0
 
     def forward(self):
         return pygame.Vector2(0, 1).rotate(self.rotation)
@@ -57,6 +59,9 @@ class player(entity):
         if keys[pygame.K_SPACE]:
             self.shoot()
         self.reload()
+        if self.score > LEVEL_LIMIT:
+            self.score = 0
+            self.level += 1
 
     def shoot(self):
         if self.player_fire_rate_counter > 0:
