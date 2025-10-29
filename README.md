@@ -10,8 +10,8 @@ You are a space ship. There are asteroids. Don't get hit by them. Shot asteroids
 ----------
 
 # Install
-`uv init` 
-`uv add pygame` 
+`uv init 
+uv add pygame` 
 
 ----------
 
