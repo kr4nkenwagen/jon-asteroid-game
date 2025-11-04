@@ -1,8 +1,15 @@
 from random import randint
 from asteroid_polygon import asteroid_polygon
-from constants import ASTEROID_CHILD_DIVIDER, ASTEROID_CHILD_VELOCITY_MULTIPLIER, ASTEROID_GROW_SPEED, ASTEROID_LIFETIME, ASTEROID_MAX_ROTATION_SPEED, ASTEROID_MIN_RADIUS, ASTEROID_MIN_RADIUS_SPAN, ASTEROID_SHRINK_SPEED, SCORE_MULTIPLIER
+from constants import ASTEROID_CHILD_DIVIDER, \
+    ASTEROID_CHILD_VELOCITY_MULTIPLIER, \
+    ASTEROID_GROW_SPEED, \
+    ASTEROID_LIFETIME, \
+    ASTEROID_MAX_ROTATION_SPEED, \
+    ASTEROID_MIN_RADIUS, \
+    ASTEROID_MIN_RADIUS_SPAN, \
+    ASTEROID_SHRINK_SPEED, \
+    SCORE_MULTIPLIER
 from entity import entity
-from asteroid_explosion import asteroid_explosion
 
 
 class asteroid(entity):
@@ -54,13 +61,15 @@ class asteroid(entity):
         entities = []
         for x in range(child_count // 2):
             x_pos = self.position.x + \
-                (-(self.max_radius / 2) + (x * (self.max_radius / (child_count // 2))))
+                (-(self.max_radius / 2) + (x * (self.max_radius / (
+                    child_count // 2))))
             for y in range(child_count // 2):
                 y_pos = self.position.y + \
                     (-(self.max_radius / 2) +
                      (y * (self.max_radius / (child_count // 2))))
                 cur_ent = asteroid(
-                    x_pos, y_pos, self.max_radius // (ASTEROID_CHILD_DIVIDER * .5))
+                    x_pos, y_pos, self.max_radius // (ASTEROID_CHILD_DIVIDER *
+                                                      .5))
                 cur_ent.velocity = self.velocity + \
                     ((cur_ent.position - self.position)
                      * ASTEROID_CHILD_VELOCITY_MULTIPLIER)

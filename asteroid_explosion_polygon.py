@@ -1,5 +1,10 @@
-from constants import ASTEROID_EXPLOSION_RADIUS, ASTEROID_EXPLOSION_EXPAND_RATE, ASTEROID_EXPLOSION_MAX_JITTER, ASTEROID_EXPLOSION_LIFETIME, ASTEROID_EXPLOSION_THICKNESS, ASTEROID_EXPLOSION_COLOR, ASTEROID_EXPLOSION_MAX_NUM_POINTS, ASTEROID_EXPLOSION_MIN_NUM_POINTS
-import polygon
+from constants import ASTEROID_EXPLOSION_RADIUS, \
+    ASTEROID_EXPLOSION_EXPAND_RATE, \
+    ASTEROID_EXPLOSION_MAX_JITTER, \
+    ASTEROID_EXPLOSION_THICKNESS, \
+    ASTEROID_EXPLOSION_COLOR, \
+    ASTEROID_EXPLOSION_MAX_NUM_POINTS, \
+    ASTEROID_EXPLOSION_MIN_NUM_POINTS
 import pygame
 import random
 from polygon import polygon
@@ -16,7 +21,8 @@ class asteroid_explosion_polygon(polygon):
         self.points = []
         self.base_shape = []
         num_points = random.randint(
-            ASTEROID_EXPLOSION_MIN_NUM_POINTS, ASTEROID_EXPLOSION_MAX_NUM_POINTS)
+            ASTEROID_EXPLOSION_MIN_NUM_POINTS,
+            ASTEROID_EXPLOSION_MAX_NUM_POINTS)
         for i in range(num_points):
             angle = (360 / num_points) * i
             jitter = random.uniform(-self.max_jitter, self.max_jitter)
