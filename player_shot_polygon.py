@@ -1,6 +1,7 @@
-from constants import LASER_COLOR, PLAYER_RADIUS
+from constants import LASER_COLOR
 import pygame
 from polygon import polygon
+
 
 class player_shot_polygon(polygon):
     def __init__(self):
@@ -15,5 +16,5 @@ class player_shot_polygon(polygon):
             pygame.Vector2(1, half_length),
             pygame.Vector2(0, half_length)
         ]
-        self.points = [position  + p.rotate(rotation) for p in self.points]
+        self.points = [position + p.rotate(rotation) for p in self.points]
         self.color = LASER_COLOR

@@ -3,6 +3,7 @@ from constants import ASTEROID_COLOR, ASTEROID_THICKNESS
 from polygon import polygon
 import pygame
 
+
 class asteroid_polygon(polygon):
     asteroid_shapes = [
         # Asteroid 1 – Irregular pentagon
@@ -239,15 +240,15 @@ class asteroid_polygon(polygon):
         ],
     ]
 
-
     shape_index = 0
 
     def __init__(self):
         super().__init__()
-        self.shape_index = randint(0, len(self.asteroid_shapes) -1)
+        self.shape_index = randint(0, len(self.asteroid_shapes) - 1)
 
     def calc(self, position, rotation, radius, dt):
         shape = self.asteroid_shapes[self.shape_index]
-        self.points = [ (point.rotate(rotation) * radius + position) for point in shape ]
+        self.points = [(point.rotate(rotation) * radius + position)
+                       for point in shape]
         self.color = ASTEROID_COLOR
         self.thickness = ASTEROID_THICKNESS

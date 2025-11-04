@@ -3,9 +3,11 @@ from background_star_polygon import background_star_polygon
 from constants import BACKGROUND_SPEED_MULTIPLIER, SCREEN_HEIGHT, SCREEN_WIDTH
 from entity import entity
 
+
 class background_star(entity):
     player = None
     layer = 1
+
     def __init__(self, layer):
         super().__init__(0, 0, 1)
         self.layer = layer
@@ -14,11 +16,11 @@ class background_star(entity):
         self.position.y = randint(0, SCREEN_HEIGHT)
         self.collideable = False
 
-
     def update(self):
-        if self.player == None:
+        if self.player is None:
             self.player = self.game.ent_manager.get_entity("player")
-        self.velocity = (self.player.velocity - self.player.camera_offset) * -1 * (self.layer * BACKGROUND_SPEED_MULTIPLIER)
+        self.velocity = (self.player.velocity - self.player.camera_offset) * \
+            -1 * (self.layer * BACKGROUND_SPEED_MULTIPLIER)
         self.position += self.velocity * self.game.dt
         if self.position.x < 0:
             self.position.x = SCREEN_WIDTH

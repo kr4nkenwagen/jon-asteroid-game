@@ -1,21 +1,24 @@
 from asteroid_spawner import asteroid_spawner
 from background_creator import background_creator
 from collision_manager import collision_manager
-from constants import * 
+from constants import SCREEN_WIDTH, \
+    SCREEN_HEIGHT
 from entity_manager import entity_manager
 from player import player
 import pygame
 from render_manager import render_manager
 from ui import ui
 
+
 class game():
     screen = None
     clock = None
     dt = 0
-    ent_manager : entity_manager
-    rendr_manager : render_manager
-    coll_manager : collision_manager
+    ent_manager: entity_manager
+    rendr_manager: render_manager
+    coll_manager: collision_manager
     game_running = False
+
     def init(self):
         print("Starting Asteroids!")
         print("Screen width: " + str(SCREEN_WIDTH))
@@ -27,18 +30,19 @@ class game():
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.dt = 0
-        self.ent_manager.add_entity(player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        self.ent_manager.add_entity(
+            player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         self.ent_manager.add_entity(ui())
         self.ent_manager.add_entity(background_creator())
         self.ent_manager.add_entity(asteroid_spawner())
         self.game_running = True
-     
+
     def update(self):
         self.ent_manager.update()
         self.ent_manager.update_physics()
         self.coll_manager.update()
         self.dt = self.clock.tick() / 1000
-    
+
     def draw(self):
         self.rendr_manager.draw()
 

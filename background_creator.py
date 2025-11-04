@@ -1,8 +1,10 @@
 from random import randint
 from background_star import background_star
-from constants import BACKGROUND_LAYERS, BACKGROUND_MAX_STARS, BACKGROUND_MIN_STARS
-import pygame
+from constants import BACKGROUND_LAYERS, \
+    BACKGROUND_MAX_STARS, \
+    BACKGROUND_MIN_STARS
 from entity import entity
+
 
 class background_creator(entity):
     def __init__(self):

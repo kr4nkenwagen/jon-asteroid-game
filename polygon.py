@@ -1,5 +1,3 @@
-import pygame
-
 class polygon:
 
     def __init__(self):
@@ -10,4 +8,4 @@ class polygon:
         self.show = True
 
     def calc(self, position, rotation, radius, dt):
-       pass 
+        pass

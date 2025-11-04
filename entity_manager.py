@@ -1,39 +1,43 @@
-import pygame
-
 class entity_manager:
     first_entity = None
     id_count = 0
+
     def __init__(self, game):
         self.game = game
         pass
 
     def update(self):
         curr_ent = self.first_entity
-        while curr_ent != None:
-            if curr_ent.parent != None:
+        while curr_ent is not None:
+            if curr_ent.parent is not None:
                 curr_ent.position = curr_ent.parent.position.copy()
                 curr_ent.rotation = curr_ent.parent.rotation
                 curr_ent.radius = curr_ent.parent.radius
             curr_ent.update()
             curr_ent = curr_ent.next
-    
+
     def draw(self):
         curr_ent = self.first_entity
-        while curr_ent != None:
-            if curr_ent.polygon != None and curr_ent.polygon.enabled:
-                curr_ent.polygon.calc(curr_ent.position, curr_ent.rotation, curr_ent.radius, self.game.dt)
+        while curr_ent is not None:
+            if curr_ent.polygon is not None and curr_ent.polygon.enabled:
+                curr_ent.polygon.calc(
+                    curr_ent.position,
+                    curr_ent.rotation,
+                    curr_ent.radius,
+                    self.game.dt)
                 self.game.rendr_manager.add_queue(curr_ent.polygon)
             curr_ent.draw()
             curr_ent = curr_ent.next
 
     def update_physics(self):
         curr_ent = self.first_entity
-        while curr_ent != None:
+        while curr_ent is not None:
             if curr_ent.use_physics:
                 op = self.game.coll_manager.check_velocity_position(curr_ent)
-                if op == None:
+                if op is None:
                     curr_ent.position += curr_ent.velocity * self.game.dt
-                    curr_ent.rotation += curr_ent.angular_velocity * self.game.dt
+                    curr_ent.rotation += curr_ent.angular_velocity * \
+                        self.game.dt
                 else:
                     self.physics_bounce(curr_ent, op)
             curr_ent = curr_ent.next
@@ -42,15 +46,15 @@ class entity_manager:
         entity.game = self.game
         entity.id = self.id_count
         self.id_count += 1
-        if self.first_entity == None:
+        if self.first_entity is None:
             self.first_entity = entity
             return entity
         curr_ent = self.first_entity
-        while curr_ent.next != None:
+        while curr_ent.next is not None:
             curr_ent = curr_ent.next
         curr_ent.next = entity
         return entity
-    
+
     def add_entities(self, entities):
         first_ent = entities[0]
         for i in range(len(entities)):
@@ -59,18 +63,17 @@ class entity_manager:
             self.id_count += 1
             if i > 0:
                 entities[i - 1].next = entities[i]
-        if self.first_entity == None:
+        if self.first_entity is None:
             self.first_entity = first_ent
-            return first_ent 
+            return first_ent
         curr_ent = self.first_entity
-        while curr_ent.next != None:
+        while curr_ent.next is not None:
             curr_ent = curr_ent.next
-        curr_ent.next = first_ent 
+        curr_ent.next = first_ent
         return first_ent
 
-
     def remove_entity(self, entity):
-        if entity == None:
+        if entity is None:
             return
         if self.first_entity.id == entity.id:
             entity.next = self.first_entity.next
@@ -79,7 +82,7 @@ class entity_manager:
             entity.on_destroy()
             return
         curr_ent = self.first_entity
-        while curr_ent != None:
+        while curr_ent is not None:
             if curr_ent.next.id == entity.id:
                 curr_ent.next = curr_ent.next.next
                 entity.destroyed = True
@@ -103,5 +106,7 @@ class entity_manager:
         e1.velocity -= impulse * e2.radius
         e2.velocity += impulse * e1.radius
         friction = 0.5
-        e1.angular_velocity -= (impulse.length() * e2.radius) / e1.radius * friction
-        e2.angular_velocity -= (impulse.length() * e1.radius) / e2.radius * friction
+        e1.angular_velocity -= (impulse.length() *
+                                e2.radius) / e1.radius * friction
+        e2.angular_velocity -= (impulse.length() *
+                                e1.radius) / e2.radius * friction
