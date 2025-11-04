@@ -1,4 +1,6 @@
-from constants import LASER_LIFETIME, LASER_WIDTH, LASER_MAX_LENGTH
+from constants import LASER_LIFETIME, \
+    LASER_MAX_LENGTH, \
+    LASER_AIM_ASSIST_DEGREE
 from asteroid_explosion import asteroid_explosion
 from entity import entity
 from player_shot_polygon import player_shot_polygon
@@ -16,8 +18,17 @@ class player_shot(entity):
     def update(self):
         if self.first_frame:
             distance = LASER_MAX_LENGTH
-            target, distance = self.game.coll_manager.polygon_raycast(
-                self.position, self.rotation, distance, 5, LASER_WIDTH)
+            target, distance = self.game.coll_manager.cone_check(
+                self.position,
+                self.rotation,
+                LASER_AIM_ASSIST_DEGREE,
+                distance)
+            if target is not None:
+                direction_to_target = (
+                    target.position - self.position).normalize()
+                forward_vec = pygame.Vector2(0, 1).rotate(self.rotation)
+                angle_diff = forward_vec.angle_to(direction_to_target)
+                self.rotation += angle_diff
             self.position = self.position + \
                 (pygame.Vector2(0, 1).rotate(self.rotation) * distance / 2)
             self.polygon.length = distance
