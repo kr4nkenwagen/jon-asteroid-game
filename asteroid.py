@@ -34,7 +34,7 @@ class asteroid(entity):
                 self.radius = self.target_radius
         if self. radius > self.target_radius:
             self.radius -= self.game.dt * ASTEROID_SHRINK_SPEED
-            if self.radius < 0:
+            if self.radius < 1:
                 self.destroyed_by_player = True
                 self.game.ent_manager.remove_entity(self)
 
