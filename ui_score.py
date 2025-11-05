@@ -1,4 +1,9 @@
-from constants import LEVEL_LIMIT, SCREEN_HEIGHT, SCREEN_WIDTH, UI_OFFSET, UI_SCORE_HEIGHT, UI_SCORE_WIDTH
+from constants import LEVEL_LIMIT, \
+    SCREEN_HEIGHT, \
+    SCREEN_WIDTH, \
+    UI_OFFSET, \
+    UI_SCORE_HEIGHT, \
+    UI_SCORE_WIDTH
 from entity import entity
 import pygame
 
