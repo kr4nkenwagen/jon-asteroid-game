@@ -1,10 +1,11 @@
 import game
-import pygame
+from pygame import sprite, \
+    Vector2
 
 
-class entity(pygame.sprite.Sprite):
+class entity(sprite.Sprite):
     def __init__(self, x, y, radius):
-        self.position = pygame.Vector2(x, y)
+        self.position = Vector2(x, y)
         self.next = None
         self.game: game = None
         self.parent = None
@@ -12,8 +13,8 @@ class entity(pygame.sprite.Sprite):
         self.has_collided_with = set()
         self.id = 0
         self.rotation = 0
-        self.position = pygame.Vector2(x, y)
-        self.velocity = pygame.Vector2(0, 0)
+        self.position = Vector2(x, y)
+        self.velocity = Vector2(0, 0)
         self.radius = 0
         self.radius = radius
         self.polygon = None

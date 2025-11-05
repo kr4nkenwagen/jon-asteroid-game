@@ -1,7 +1,9 @@
 from asteroid import asteroid
-import math
-import pygame
-import random
+from math import radians
+from pygame import Vector2
+from random import uniform, \
+    choice, \
+    randint
 from constants import ASTEROID_MAX_RADIUS, \
     ASTEROID_MAX_SPEED, \
     ASTEROID_MIN_RADIUS, \
@@ -41,8 +43,8 @@ class asteroid_spawner(entity):
         player_vel = self.player.velocity
         if player_vel.length() > 0:
             player_dir = player_vel.normalize()
-            max_angle_offset = math.radians(60)  # 60° cone
-            angle_offset = random.uniform(-max_angle_offset, max_angle_offset)
+            max_angle_offset = radians(60)
+            angle_offset = uniform(-max_angle_offset, max_angle_offset)
             spawn_dir = player_dir.rotate_rad(angle_offset)
             distance = max(SCREEN_WIDTH, SCREEN_HEIGHT) * 0.6
             position = player_pos + spawn_dir * distance
@@ -50,27 +52,27 @@ class asteroid_spawner(entity):
             position.y = max(0, min(position.y, SCREEN_HEIGHT))
             return position
         else:
-            edge = random.choice(["top", "bottom", "left", "right"])
-            position = pygame.Vector2(0, 0)
+            edge = choice(["top", "bottom", "left", "right"])
+            position = Vector2(0, 0)
             if edge == "top":
-                position.x = random.randint(0, SCREEN_WIDTH)
+                position.x = randint(0, SCREEN_WIDTH)
             if edge == "bottom":
-                position.x = random.randint(0, SCREEN_WIDTH)
+                position.x = randint(0, SCREEN_WIDTH)
                 position.y = SCREEN_HEIGHT
             if edge == "left":
-                position.y = random.randint(0, SCREEN_HEIGHT)
+                position.y = randint(0, SCREEN_HEIGHT)
             if edge == "right":
                 position.x = SCREEN_WIDTH
-                position.x = random.randint(0, SCREEN_HEIGHT)
+                position.x = randint(0, SCREEN_HEIGHT)
             return position
 
     def create_asteroid_velocity(self, start):
         if not self.player:
-            return (pygame.Vector2(SCREEN_WIDTH // 2,
-                                   SCREEN_HEIGHT // 2) - start).normalize() * \
-                random.randint(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED)
+            return (Vector2(SCREEN_WIDTH // 2,
+                            SCREEN_HEIGHT // 2) - start).normalize() * \
+                randint(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED)
         return (self.player.position - start).normalize() * \
-            random.randint(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED)
+            randint(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED)
 
     def create_asteroid_radius(self):
-        return random.randint(ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS)
+        return randint(ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS)

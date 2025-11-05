@@ -14,12 +14,17 @@ from entity import entity
 from player_polygon import player_polygon
 from player_shot import player_shot
 from player_thurst_representation import player_thrust_representation
-import pygame
+from pygame import Vector2, \
+    K_a, \
+    K_d, \
+    K_w, \
+    K_SPACE, \
+    key
 
 
 class player(entity):
     thrust_representation = None
-    camera_offset = pygame.Vector2(0, 0)
+    camera_offset = Vector2(0, 0)
     player_fire_rate_counter = 0
 
     def __init__(self, x, y):
@@ -31,13 +36,13 @@ class player(entity):
         self.level = 0
 
     def forward(self):
-        return pygame.Vector2(0, 1).rotate(self.rotation)
+        return Vector2(0, 1).rotate(self.rotation)
 
     def rotate(self, dt, keys):
         direction = 0
-        if keys[pygame.K_a]:
+        if keys[K_a]:
             direction += 1
-        if keys[pygame.K_d]:
+        if keys[K_d]:
             direction -= 1
         self.rotation += direction * PLAYER_TURN_SPEED * dt
 
@@ -55,20 +60,20 @@ class player(entity):
 
     def deaccelerate(self, dt):
         self.thrust_representation.show = False
-        self.velocity = self.velocity.lerp(pygame.Vector2(
+        self.velocity = self.velocity.lerp(Vector2(
             0, 0), PLAYER_DEACCELERATION / PLAYER_MAX_SPEED * dt)
         if self.camera_offset.length() != 0:
-            self.camera_offset = self.camera_offset.lerp(pygame.Vector2(0, 0),
+            self.camera_offset = self.camera_offset.lerp(Vector2(0, 0),
                                                          min(
                 (SCREEN_DEACCELERATION * dt) / self.camera_offset.length(), 1))
 
     def move(self, dt, keys):
-        if keys[pygame.K_w]:
+        if keys[K_w]:
             self.accelerate(dt)
         else:
             self.deaccelerate(dt)
         self.position = self.camera_offset + \
-            pygame.Vector2(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+            Vector2(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
     def update(self):
         if self.thrust_representation is None:
@@ -77,10 +82,10 @@ class player(entity):
                                              self.position.y,
                                              10))
             self.thrust_representation.parent = self
-        keys = pygame.key.get_pressed()
+        keys = key.get_pressed()
         self.rotate(self.game.dt, keys)
         self.move(self.game.dt, keys)
-        if keys[pygame.K_SPACE]:
+        if keys[K_SPACE]:
             self.shoot()
         self.reload()
         if self.score > LEVEL_LIMIT:

@@ -7,7 +7,9 @@ from constants import SCREEN_WIDTH, \
     BACKGROUND_COLOR
 from entity_manager import entity_manager
 from player import player
-import pygame
+from pygame import init, \
+    display, \
+    time
 from render_manager import render_manager
 from ui import ui
 
@@ -25,12 +27,12 @@ class game():
         print("Starting Asteroids!")
         print("Screen width: " + str(SCREEN_WIDTH))
         print("Screen height: " + str(SCREEN_HEIGHT))
-        pygame.init()
+        init()
         self.ent_manager = entity_manager(self)
         self.rendr_manager = render_manager(self)
         self.coll_manager = collision_manager(self)
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.clock = pygame.time.Clock()
+        self.screen = display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.clock = time.Clock()
         self.dt = 0
         self.ent_manager.add_entity(
             player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))

@@ -1,12 +1,12 @@
 from constants import PLAYER_COLOR, PLAYER_RADIUS, PLAYER_THICKNESS
-import pygame
+from pygame import Vector2
 from polygon import polygon
 
 
 class player_polygon(polygon):
     def calc(self, position, rotation, radius, dt):
-        right = pygame.Vector2(0, 1).rotate(rotation + 90)
-        forward = pygame.Vector2(0, 1).rotate(rotation)
+        right = Vector2(0, 1).rotate(rotation + 90)
+        forward = Vector2(0, 1).rotate(rotation)
         r = PLAYER_RADIUS
 
         # Define detailed 7-point ship shape

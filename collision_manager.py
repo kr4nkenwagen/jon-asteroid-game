@@ -1,5 +1,7 @@
-import pygame
-import math
+from pygame import Vector2, \
+    draw
+from math import degrees, \
+    atan2
 
 
 class collision_manager():
@@ -52,7 +54,7 @@ class collision_manager():
                 edge = polygon[i2] - polygon[i1]
                 if edge.length_squared() == 0:
                     continue
-                axis = pygame.Vector2(-edge.y, edge.x).normalize()
+                axis = Vector2(-edge.y, edge.x).normalize()
                 min_a, max_a = self.polygon_projection(pol1, axis)
                 min_b, max_b = self.polygon_projection(pol2, axis)
                 if max_a < min_b or max_b < min_a:
@@ -70,8 +72,8 @@ class collision_manager():
                 dist = p1.distance_to(p2)
                 if dist < min_dist:
                     min_dist = dist
-                    return pygame.Vector2(p1.x / p2.x, p1.y / p2.y)
-        return pygame.Vector2(0, 0)
+                    return Vector2(p1.x / p2.x, p1.y / p2.y)
+        return Vector2(0, 0)
 
     def shift_points(self, points, shift, rotation, center):
         transformed_points = []
@@ -105,8 +107,8 @@ class collision_manager():
                         entity.velocity * self.game.dt,
                         entity.angular_velocity * self.game.dt,
                         entity.position)
-                    pygame.draw.polygon(self.game.screen, "red", p1, 10)
-                    pygame.draw.polygon(self.game.screen, "blue", p2, 10)
+                    draw.polygon(self.game.screen, "red", p1, 10)
+                    draw.polygon(self.game.screen, "blue", p2, 10)
                     if self.polygons_collide(p1, p2):
                         return cur_ent
             cur_ent = cur_ent.next
@@ -116,20 +118,20 @@ class collision_manager():
         half_length = length / 2
         half_thickness = thickness / 2
         points = [
-            pygame.Vector2(-half_length, -half_thickness),
-            pygame.Vector2(half_length, -half_thickness),
-            pygame.Vector2(half_length, half_thickness),
-            pygame.Vector2(-half_length, half_thickness)
+            Vector2(-half_length, -half_thickness),
+            Vector2(half_length, -half_thickness),
+            Vector2(half_length, half_thickness),
+            Vector2(-half_length, half_thickness)
         ]
         points = [position + p.rotate(rotation) for p in points]
-        pygame.draw.polygon(self.game.screen, "red", points, 20)
+        draw.polygon(self.game.screen, "red", points, 20)
         return points
 
     def polygon_raycast(self, origin, direction, max_distance, step, width):
         distance = 0
         while distance < max_distance:
             ray_center = origin + \
-                (pygame.Vector2(0, 1).rotate(direction) * distance)
+                (Vector2(0, 1).rotate(direction) * distance)
             ray = self.polygon_line(ray_center, direction, step, width)
             cur_ent = self.game.ent_manager.first_entity
             while cur_ent is not None:
@@ -143,7 +145,7 @@ class collision_manager():
     def cone_check(self, origin, direction, angle, length):
         closest_entity = None
         closest_dist = float('inf')
-        dir_vec = pygame.Vector2(0, 1).rotate(direction)
+        dir_vec = Vector2(0, 1).rotate(direction)
         cur_ent = self.game.ent_manager.first_entity
         while cur_ent is not None:
             if cur_ent.collideable and len(cur_ent.polygon.points) > 0:
@@ -158,8 +160,8 @@ class collision_manager():
                     continue
                 ang_diff = dir_vec.angle_to(to_ent)
                 if dist > 0:
-                    angular_radius = math.degrees(
-                        math.atan2(cur_ent.radius, dist))
+                    angular_radius = degrees(
+                        atan2(cur_ent.radius, dist))
                 else:
                     angular_radius = 0
                 if abs(ang_diff) <= (angle / 2 + angular_radius):

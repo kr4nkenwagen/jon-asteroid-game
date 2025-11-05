@@ -5,8 +5,9 @@ from constants import ASTEROID_EXPLOSION_RADIUS, \
     ASTEROID_EXPLOSION_COLOR, \
     ASTEROID_EXPLOSION_MAX_NUM_POINTS, \
     ASTEROID_EXPLOSION_MIN_NUM_POINTS
-import pygame
-import random
+from pygame import Vector2
+from random import uniform, \
+    randint
 from polygon import polygon
 
 
@@ -20,13 +21,12 @@ class asteroid_explosion_polygon(polygon):
         self.thickness = ASTEROID_EXPLOSION_THICKNESS
         self.points = []
         self.base_shape = []
-        num_points = random.randint(
+        num_points = randint(
             ASTEROID_EXPLOSION_MIN_NUM_POINTS,
             ASTEROID_EXPLOSION_MAX_NUM_POINTS)
         for i in range(num_points):
             angle = (360 / num_points) * i
-            jitter = random.uniform(-self.max_jitter, self.max_jitter)
-            # store base angle & offset scale
+            jitter = uniform(-self.max_jitter, self.max_jitter)
             self.base_shape.append((angle, 1 + jitter * 0.05))
 
     def calc(self, position, rotation, radius, dt):
@@ -35,5 +35,5 @@ class asteroid_explosion_polygon(polygon):
         self.points = []
         for angle, scale in self.base_shape:
             dist = ASTEROID_EXPLOSION_RADIUS * scale * expand
-            offset = pygame.Vector2(0, -dist).rotate(angle + rotation)
+            offset = Vector2(0, -dist).rotate(angle + rotation)
             self.points.append(position + offset)

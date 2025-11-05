@@ -1,5 +1,3 @@
-from random import randint
-from asteroid_polygon import asteroid_polygon
 from constants import ASTEROID_CHILD_DIVIDER, \
     ASTEROID_CHILD_VELOCITY_MULTIPLIER, \
     ASTEROID_GROW_SPEED, \
@@ -10,6 +8,8 @@ from constants import ASTEROID_CHILD_DIVIDER, \
     ASTEROID_SHRINK_SPEED, \
     SCORE_MULTIPLIER
 from entity import entity
+from random import randint
+from asteroid_polygon import asteroid_polygon
 
 
 class asteroid(entity):
@@ -31,6 +31,14 @@ class asteroid(entity):
     def update(self):
         if not self.player:
             self.player = self.game.ent_manager.get_entity("player")
+            self.radius = self.target_radius
+            while self.game.coll_manager.check_velocity_position(self) \
+                    is not None:
+                print("dwdwd")
+                player_dir = (self.position -
+                              self.player.position).normalized()
+                self.position += player_dir * self.target_fadius
+            self.radius = 0
         if self.player:
             self.position += self.player.velocity * self.game.dt * -1
         self.life_timer += self.game.dt

@@ -1,13 +1,14 @@
 from game import game
-import pygame
+from pygame import event, \
+    QUIT
 
 
 def main():
     _game = game()
     _game.init()
     while (_game.game_running):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+        for e in event.get():
+            if e.type == QUIT:
                 _game.game_running = False
         _game.update()
         _game.draw()

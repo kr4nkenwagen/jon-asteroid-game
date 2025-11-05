@@ -4,7 +4,7 @@ from constants import LASER_LIFETIME, \
 from asteroid_explosion import asteroid_explosion
 from entity import entity
 from player_shot_polygon import player_shot_polygon
-import pygame
+from pygame import Vector2
 
 
 class player_shot(entity):
@@ -26,16 +26,16 @@ class player_shot(entity):
             if target is not None:
                 direction_to_target = (
                     target.position - self.position).normalize()
-                forward_vec = pygame.Vector2(0, 1).rotate(self.rotation)
+                forward_vec = Vector2(0, 1).rotate(self.rotation)
                 angle_diff = forward_vec.angle_to(direction_to_target)
                 self.rotation += angle_diff
             self.position = self.position + \
-                (pygame.Vector2(0, 1).rotate(self.rotation) * distance / 2)
+                (Vector2(0, 1).rotate(self.rotation) * distance / 2)
             self.polygon.length = distance
             if target is not None:
                 if target.__class__.__name__ == "asteroid":
                     explosion_position = self.position + \
-                        (pygame.Vector2(0, 1).rotate(self.rotation) *
+                        (Vector2(0, 1).rotate(self.rotation) *
                             distance / 2)
                     self.game.ent_manager.add_entity(asteroid_explosion(
                         explosion_position.x, explosion_position.y, 30))
