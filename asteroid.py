@@ -8,7 +8,8 @@ from constants import ASTEROID_CHILD_DIVIDER, \
     ASTEROID_SHRINK_SPEED, \
     SCORE_MULTIPLIER
 from entity import entity
-from random import randint
+from random import randint, \
+    uniform
 from asteroid_polygon import asteroid_polygon
 
 
@@ -64,22 +65,27 @@ class asteroid(entity):
         self.player.score += SCORE_MULTIPLIER / self.max_radius
         if self.max_radius < ASTEROID_MIN_RADIUS + ASTEROID_MIN_RADIUS_SPAN:
             return
-        child_count = self.max_radius // ASTEROID_CHILD_DIVIDER
+        child_count = max(2, self.max_radius // ASTEROID_CHILD_DIVIDER)
+        half_count = child_count // 2
         entities = []
-        for x in range(child_count // 2):
-            x_pos = self.position.x + \
-                (-(self.max_radius / 2) + (x * (self.max_radius / (
-                    child_count // 2))))
-            for y in range(child_count // 2):
-                y_pos = self.position.y + \
-                    (-(self.max_radius / 2) +
-                     (y * (self.max_radius / (child_count // 2))))
-                cur_ent = asteroid(
-                    x_pos, y_pos, self.max_radius // (ASTEROID_CHILD_DIVIDER *
-                                                      .5))
-                cur_ent.velocity = self.velocity + \
-                    ((cur_ent.position - self.position)
-                     * ASTEROID_CHILD_VELOCITY_MULTIPLIER)
+        cell_size = self.max_radius / half_count
+        half_radius = self.max_radius / 2
+        for x in range(half_count):
+            for y in range(half_count):
+                x_pos = self.position.x - half_radius + (x * cell_size)
+                y_pos = self.position.y - half_radius + (y * cell_size)
+                jitter = cell_size * 0.25
+                x_pos += uniform(-jitter, jitter)
+                y_pos += uniform(-jitter, jitter)
+                child_radius = self.max_radius / (ASTEROID_CHILD_DIVIDER / 2)
+                cur_ent = asteroid(x_pos, y_pos, child_radius)
+                random_vel = (uniform(-0.5, 0.5), uniform(-0.5, 0.5))
+                cur_ent.velocity = (
+                    self.velocity +
+                    ((cur_ent.position - self.position) *
+                        ASTEROID_CHILD_VELOCITY_MULTIPLIER) +
+                    random_vel
+                )
                 entities.append(cur_ent)
         self.game.ent_manager.add_entities(entities)
 
