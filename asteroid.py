@@ -19,6 +19,7 @@ class asteroid(entity):
     def __init__(self, x, y, radius):
         super().__init__(x, y, 0)
         self.target_radius = radius
+        self.radius = radius
         self.max_radius = radius
         self.collideable = True
         self.polygon = asteroid_polygon()
@@ -32,13 +33,11 @@ class asteroid(entity):
     def update(self):
         if not self.player:
             self.player = self.game.ent_manager.get_entity("player")
-            self.radius = self.target_radius
             while len(self.game.coll_manager.check_velocity_position(self)) \
                     != 0:
                 player_dir = (self.position -
                               self.player.position).normalize()
                 self.position += player_dir * self.target_radius
-            self.radius = 0
         if self.player:
             self.position += self.player.velocity * self.game.dt * -1
         self.life_timer += self.game.dt
