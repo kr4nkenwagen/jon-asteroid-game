@@ -32,12 +32,11 @@ class asteroid(entity):
         if not self.player:
             self.player = self.game.ent_manager.get_entity("player")
             self.radius = self.target_radius
-            while self.game.coll_manager.check_velocity_position(self) \
-                    is not None:
-                print("dwdwd")
+            while len(self.game.coll_manager.check_velocity_position(self)) \
+                    != 0:
                 player_dir = (self.position -
-                              self.player.position).normalized()
-                self.position += player_dir * self.target_fadius
+                              self.player.position).normalize()
+                self.position += player_dir * self.target_radius
             self.radius = 0
         if self.player:
             self.position += self.player.velocity * self.game.dt * -1

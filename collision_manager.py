@@ -86,8 +86,9 @@ class collision_manager():
 
     def check_velocity_position(self, entity):
         if len(entity.polygon.points) == 0:
-            return None
+            return []
         cur_ent = entity.next
+        ops = []
         while cur_ent is not None:
             if cur_ent != entity and \
                cur_ent.use_physics and \
@@ -110,9 +111,9 @@ class collision_manager():
                     draw.polygon(self.game.screen, "red", p1, 10)
                     draw.polygon(self.game.screen, "blue", p2, 10)
                     if self.polygons_collide(p1, p2):
-                        return cur_ent
+                        ops.append(cur_ent)
             cur_ent = cur_ent.next
-        return None
+        return ops
 
     def polygon_line(self, position, rotation, length, thickness):
         half_length = length / 2

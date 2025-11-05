@@ -33,13 +33,14 @@ class entity_manager:
         curr_ent = self.first_entity
         while curr_ent is not None:
             if curr_ent.use_physics:
-                op = self.game.coll_manager.check_velocity_position(curr_ent)
-                if op is None:
+                ops = self.game.coll_manager.check_velocity_position(curr_ent)
+                if len(ops) == 0:
                     curr_ent.position += curr_ent.velocity * self.game.dt
                     curr_ent.rotation += curr_ent.angular_velocity * \
                         self.game.dt
                 else:
-                    self.physics_bounce(curr_ent, op)
+                    for op in ops:
+                        self.physics_bounce(curr_ent, op)
             curr_ent = curr_ent.next
 
     def add_entity(self, entity):
