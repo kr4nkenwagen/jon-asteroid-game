@@ -96,17 +96,14 @@ class entity_manager:
             curr_ent = curr_ent.next
         return curr_ent
 
-    def physics_bounce(self, e1, e2):
+    def physics_bounce(self, e1, e2, restitution=0.8, friction=0.5):
         rel_vel = e1.velocity - e2.velocity
         normal = (e1.position - e2.position).normalize()
         vel_along = rel_vel.dot(normal)
         if vel_along > 0:
             return
-        impulse = ((2 * vel_along) / (e1.radius + e2.radius)) * normal
-        e1.velocity -= impulse * e2.radius
-        e2.velocity += impulse * e1.radius
-        friction = 0.5
-        e1.angular_velocity -= (impulse.length() *
-                                e2.radius) / e1.radius * friction
-        e2.angular_velocity -= (impulse.length() *
-                                e1.radius) / e2.radius * friction
+        impulse = -(1 + restitution) * vel_along / 2 * normal
+        e1.velocity += impulse
+        e2.velocity -= impulse
+        e1.angular_velocity -= impulse.length() * friction / e1.radius
+        e2.angular_velocity -= impulse.length() * friction / e2.radius

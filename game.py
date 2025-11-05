@@ -2,7 +2,9 @@ from asteroid_spawner import asteroid_spawner
 from background_creator import background_creator
 from collision_manager import collision_manager
 from constants import SCREEN_WIDTH, \
-    SCREEN_HEIGHT
+    SCREEN_HEIGHT, \
+    DEBUG_ENABLED, \
+    BACKGROUND_COLOR
 from entity_manager import entity_manager
 from player import player
 import pygame
@@ -38,6 +40,9 @@ class game():
         self.game_running = True
 
     def update(self):
+        if DEBUG_ENABLED:
+            self.screen.fill(BACKGROUND_COLOR)
+
         self.ent_manager.update()
         self.ent_manager.update_physics()
         self.coll_manager.update()
