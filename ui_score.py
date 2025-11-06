@@ -3,11 +3,12 @@ from constants import LEVEL_LIMIT, \
     SCREEN_WIDTH, \
     UI_OFFSET, \
     UI_SCORE_HEIGHT, \
-    UI_SCORE_WIDTH
+    UI_SCORE_WIDTH, \
+    UI_COLOR
 from entity import entity
 from pygame import draw as render, \
-    Rect
-from pygame.math import lerp
+    Rect, \
+    Vector2
 
 
 class ui_score(entity):
@@ -20,36 +21,34 @@ class ui_score(entity):
             self.frame.x, self.frame.y, 0, self.frame.height)
         self.player = None
         self.value = 0
-        self.update_value = 0
-        self.player_level = 0
+        self.player_score_position = Vector2(UI_OFFSET, self.frame.y)
 
     def update(self):
         if self.player is None:
             self.player = self.game.ent_manager.get_entity("player")
-        if self.player_level != self.player.level:
-            self.player_level = self.player.level
-            self.update_value = LEVEL_LIMIT - self.value
-        if self.value >= LEVEL_LIMIT - .001:
-            self.value = 0
-            self.update_value = 0
-        if self.update_value > 0:
-            diff = lerp(
-                0, self.update_value, min(max(self.game.dt, 0), 1))
-            self.update_value -= diff
-            self.value += diff
-            if diff < .001:
-                diff = 0
-        if self.value + self.update_value < self.player.score:
-            self.update_value = self.player.score - self.value
-        self.value_rect.width = (self.value / LEVEL_LIMIT) * UI_SCORE_WIDTH
+        self.player_score_position.x = \
+            UI_OFFSET + \
+            ((self.player.score / LEVEL_LIMIT) * UI_SCORE_WIDTH)
 
     def draw(self):
-        render.rect(self.game.screen, "white", self.frame)
-        render.rect(self.game.screen, "green", self.value_rect)
-        render.rect(self.game.screen,
-                    "blue",
-                    Rect(self.value_rect.x + self.value_rect.width,
-                         self.value_rect.y,
-                         (self.update_value / LEVEL_LIMIT) *
-                         UI_SCORE_WIDTH,
-                         self.value_rect.height))
+        render.polygon(self.game.screen,
+                       UI_COLOR,
+                       [
+                           Vector2(self.frame.x, self.frame.y),
+                           Vector2(self.frame.x + self.frame.width,
+                                   self.frame.y),
+                           Vector2(self.frame.x + self.frame.width,
+                                   self.frame.y + self.frame.height),
+                           Vector2(self.frame.x,
+                                   self.frame.y + self.frame.height)
+                       ],
+                       2)
+        render.polygon(self.game.screen,
+                       UI_COLOR,
+                       [
+                           self.player_score_position,
+                           Vector2(self.player_score_position.x,
+                                   self.player_score_position.y
+                                   + UI_SCORE_HEIGHT)
+                       ],
+                       8)
