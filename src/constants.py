@@ -68,6 +68,6 @@ LEVEL_LIMIT = 10
 
 DEBUG_ENABLED = False
 
-FONT_REGULAR = "fonts/1.ttf"
-FONT_BOLD = "fonts/2.ttf"
+FONT_REGULAR = "resources/fonts/1.ttf"
+FONT_BOLD = "resources/fonts/2.ttf"
 FONT_SIZE = 42
