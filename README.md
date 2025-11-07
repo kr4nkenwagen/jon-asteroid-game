@@ -8,12 +8,17 @@ You are a space ship. There are asteroids. Don't get hit by them. Shot asteroids
 * Space - Laser! Aim at asteroids.
 
 ----------
+# Install the game
 
-# Install
-`uv init 
-uv add pygame` 
-
-----------
+ `uv sync` 
 
 # Start the game
-`uv run main.py` 
+ `uv run main.py` 
+
+
+----------
+# FAQ
+## Uv
+If you don't have **uv**, you can install it here:
+
+` curl -LsSf https://astral.sh/uv/install.sh | sh`
