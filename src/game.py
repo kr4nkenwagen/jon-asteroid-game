@@ -10,10 +10,13 @@ from entity_manager import entity_manager
 from player import player
 from pygame import init, \
     display, \
-    time
+    time, \
+    K_ESCAPE, \
+    key
+
+
 from render_manager import render_manager
 from ui import ui
-
 
 class game():
     screen = None
@@ -48,8 +51,10 @@ class game():
     def update(self):
         if DEBUG_ENABLED:
             self.screen.fill(BACKGROUND_COLOR)
-
-        if !game_paused:
+        keys = key.get_pressed()
+        if keys[K_ESCAPE]:
+            self.game_paused = not self.game_paused
+        if self.game_paused == False:
             self.ent_manager.update()
             self.ent_manager.update_physics()
             self.coll_manager.update()
